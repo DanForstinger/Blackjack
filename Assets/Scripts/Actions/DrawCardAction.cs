@@ -5,9 +5,12 @@ public class DrawCardAction : GameAction, IPlayerAction
 
     public int OwningPlayer { get; set; }
     
-    public DrawCardAction(CardModel card, int playerIndex)
+    public bool ShouldReveal { get; set; }
+    
+    public DrawCardAction(CardModel card, int playerIndex, bool shouldReveal)
     {
         Card = card;
         OwningPlayer = playerIndex;
+        ShouldReveal = shouldReveal;
     }
 }

@@ -18,9 +18,9 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
-        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
-        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
-        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0, true));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0, true));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1, false));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1, true));
     }
 }

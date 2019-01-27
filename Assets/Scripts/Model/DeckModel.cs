@@ -4,17 +4,19 @@ using System.Collections.Generic;
 [System.Serializable]
 public class DeckModel
 {
+    public const int CardsPerSuit = 13;
+
     private List<CardModel> cards;
 
     private int currentDeckIndex;
-    
+
     public DeckModel()
     {
         cards = new List<CardModel>();
 
         foreach (Suit suit in Enum.GetValues(typeof(Suit)))
         {
-            for (int rank = 1; rank < 13; ++rank)
+            for (int rank = 0; rank < CardsPerSuit; ++rank)
             {
                 cards.Add(new CardModel(suit, rank));
             }

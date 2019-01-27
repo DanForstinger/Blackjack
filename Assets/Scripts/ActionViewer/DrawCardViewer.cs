@@ -8,7 +8,9 @@ public class DrawCardViewer : PlayerActionViewer
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform deckTransform;
 
-    private const float tweenSpeed = 0.2f;
+    private const float moveTime = 0.2f;
+    private const float scaleTime = 0.1f;
+    
     void OnEnable()
     {
         RegisterViewer<DrawCardAction>();
@@ -22,18 +24,41 @@ public class DrawCardViewer : PlayerActionViewer
     public override void ExecuteViewAction(GameAction action, UnityAction<ActionViewer> onCompleteCallback)
     {
         var drawCardAction = (DrawCardAction) action;
-
-        var card = cardPool.GetObject();
         
-        card.transform.SetParent(deckTransform);
-        card.transform.localPosition = Vector2.zero;
+        var cardView = SpawnCard(drawCardAction.Card);
 
-        LeanTween.move(card, handTransform.position, tweenSpeed)
+        LeanTween.move(cardView.gameObject, handTransform.position, moveTime)
             .setOnComplete(() =>
             {
-                card.transform.SetParent(handTransform);
-                card.transform.SetAsLastSibling();
-                onCompleteCallback.Invoke(this);
+                cardView.transform.SetParent(handTransform);
+                cardView.transform.SetAsLastSibling();
+
+                if (drawCardAction.ShouldReveal)
+                {
+                    LeanTween.scaleX(cardView.gameObject, 0, scaleTime)
+                        .setOnComplete(() =>
+                        {
+                            cardView.SetRevealed(true);
+                            LeanTween.scaleX(cardView.gameObject, 1, scaleTime)
+                                .setOnComplete(() => onCompleteCallback.Invoke(this));
+                        });
+                }
+                else
+                {
+                    onCompleteCallback.Invoke(this);
+                }
             });
+    }
+
+    private CardView SpawnCard(CardModel card)
+    {
+        var cardObj = cardPool.GetObject();
+        cardObj.transform.SetParent(deckTransform);
+        cardObj.transform.localPosition = Vector2.zero;
+
+        var cardView = cardObj.GetComponent<CardView>();
+        cardView.SetCard(card, false);
+        
+        return cardView;
     }
 }
