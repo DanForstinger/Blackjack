@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public static class ListExtensions
 {
+    private static Random random = new Random();
+
     public static T Random<T>(this List<T> list)
     {
-        var index = UnityEngine.Random.Range(0, list.Count);
+        var index = random.Next(0, list.Count);
         return list[index];
     }
 
@@ -22,10 +24,10 @@ public static class ListExtensions
         var last = count - 1;
         for (var i = 0; i < last; ++i)
         {
-            var random = UnityEngine.Random.Range(i, count);
+            var rand = random.Next(i, count);
             var temp = list[i];
-            list[i] = list[random];
-            list[random] = temp;
+            list[i] = list[rand];
+            list[rand] = temp;
         }
     }
 }
