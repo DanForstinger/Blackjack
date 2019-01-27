@@ -2,8 +2,6 @@
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private ActionSystem actionSystem;
-    
     [SerializeField] private PlayerController[] players;
 
     private DeckModel deck;
@@ -20,9 +18,9 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-        actionSystem.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
-        actionSystem.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
-        actionSystem.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
-        actionSystem.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 0));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
+        ActionSystem.Instance.PerformAction(new DrawCardAction(deck.DrawCard(), 1));
     }
 }

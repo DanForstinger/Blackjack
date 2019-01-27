@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ActionSystem actionSystem;
-
-    private PlayerModel playerModel;
+    public PlayerModel playerModel { get; private set; }
 
     public void Initialize(int index)
     {
-        playerModel = new PlayerModel(index);    
+        playerModel = new PlayerModel(index);
+        
+        Debug.Log(string.Format("Initialized a player controller at index {0}.", index));
     }
     
     void OnEnable()
     {
-        actionSystem.AddActionListener<DrawCardAction>(OnDrawCard);
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<DrawCardAction>(OnDrawCard);
     }
 
     void OnDisable()
     {
-        actionSystem.RemoveActionListener<DrawCardAction>(OnDrawCard);
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DrawCardAction>(OnDrawCard);
     }
 
     void OnDrawCard(GameAction action)
