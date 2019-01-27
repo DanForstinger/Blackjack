@@ -6,7 +6,9 @@ public class DrawCardViewer : PlayerActionViewer
 {
     [SerializeField] private ObjectPool cardPool;
     [SerializeField] private Transform handTransform;
-    
+    [SerializeField] private Transform deckTransform;
+
+    private const float tweenSpeed = 0.2f;
     void OnEnable()
     {
         RegisterViewer<DrawCardAction>();
@@ -21,18 +23,17 @@ public class DrawCardViewer : PlayerActionViewer
     {
         var drawCardAction = (DrawCardAction) action;
 
-        StartCoroutine(AnimateDrawCard(drawCardAction, onCompleteCallback));
-    }
-
-    IEnumerator AnimateDrawCard(DrawCardAction action, UnityAction<ActionViewer> onCompleteCallback)
-    {
         var card = cardPool.GetObject();
-        card.transform.SetParent(handTransform);
         
-        var wait = new WaitForSeconds(2);
-        
-        yield return wait;
-        
-        onCompleteCallback.Invoke(this);
+        card.transform.SetParent(deckTransform);
+        card.transform.localPosition = Vector2.zero;
+
+        LeanTween.move(card, handTransform.position, tweenSpeed)
+            .setOnComplete(() =>
+            {
+                card.transform.SetParent(handTransform);
+                card.transform.SetAsLastSibling();
+                onCompleteCallback.Invoke(this);
+            });
     }
 }
