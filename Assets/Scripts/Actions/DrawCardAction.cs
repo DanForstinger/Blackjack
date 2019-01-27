@@ -1,9 +1,9 @@
 ﻿[System.Serializable]
-public class DrawCardAction : GameAction
+public class DrawCardAction : GameAction, IPlayerAction
 {
     public CardModel Card { get; private set; }
 
-    public int OwningPlayer { get; private set; }
+    public int OwningPlayer { get; set; }
     
     public DrawCardAction(CardModel card, int playerIndex)
     {

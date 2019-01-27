@@ -5,7 +5,7 @@ A simple game of blackjack, built as part of a coding challenge.
 
 - Simple MVC approach, though often objects were just a model and a view.
 - Used as a testing bed for a new style of event system, using ScriptableObjects. Completely avoids a singleton and is able to be debugged in the editor.
-
+- I am aware that singletons are not good
 Action System
 
 - Game Actions are managed by the Action System. They have phases.
@@ -13,4 +13,5 @@ Action System
 
 
 # Assets Used
+- LeanTween
 - Confetti
