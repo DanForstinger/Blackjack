@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class DeckModel
 {
     public const int CardsPerSuit = 13;
-
+    public const int DeckCount = 8;
+    
     private List<CardModel> cards;
 
     private int currentDeckIndex;
@@ -14,14 +16,19 @@ public class DeckModel
     {
         cards = new List<CardModel>();
 
-        foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+        for (int i = 0; i < DeckCount; ++i)
         {
-            for (int rank = 0; rank < CardsPerSuit; ++rank)
+            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
-                cards.Add(new CardModel(suit, rank));
+                for (int rank = 0; rank < CardsPerSuit; ++rank)
+                {
+                    cards.Add(new CardModel(suit, rank));
+                }
             }
         }
 
+        Debug.Log(string.Format("Created a deck with {0} cards.", cards.Count));
+        
         ShuffleDeck();
     }
 

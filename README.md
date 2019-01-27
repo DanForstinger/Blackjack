@@ -14,6 +14,23 @@ Action System
 - RegisterViewers,  
 
 
+# Would have liked to improve:
+
+- More moddability in the editor. 
+- Animations done using components and not in code, but code suited the scope of this project better.
+
+# Added Features
+
+## SARCASTIC DEALER
+The dealer will make sarcastic remarks and ruin your day.
+
+## CONFETTI
+No explanation neccessary.
+
+## 'SNIKT' SOUNDS FOR CARDS
+Because it wouldn't be a card game without them.
+
 # Assets Used
-- LeanTween
-- Confetti
+- LeanTween for simple and easy animations.
+- Confetti for added fluorish.
+- Some stock images found online. I don't have my drawing tablet here :(
