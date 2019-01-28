@@ -12,7 +12,7 @@ Action System
 
 - Game Actions are managed by the Action System. They have phases.
 - RegisterViewers,  
-
+- In a normal card game like magic, you would allow other things to add a "Response" to any action, that would play out before the main one executed. That would be a neat way to extend this system.
 
 # Would have liked to improve:
 
@@ -31,6 +31,9 @@ No explanation neccessary.
 Because it wouldn't be a card game without them.
 
 # Assets Used
+
 - LeanTween for simple and easy animations.
+
 - Confetti for added fluorish.
+
 - Some stock images found online. I don't have my drawing tablet here :(
