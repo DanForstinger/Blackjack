@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2135965162}
   - component: {fileID: 2135965163}
   - component: {fileID: 1368189636}
+  - component: {fileID: 1290233936449250080}
   m_Layer: 5
   m_Name: Hand
   m_TagString: Untagged
@@ -55,7 +56,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -90
+  m_Spacing: -100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -74,6 +75,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &1290233936449250080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135965161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74ed58ddea984ee3938566c138686df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 5076130482808714382}
+  cardPool: {fileID: 750220122614105950}
+  handTransform: {fileID: 2135965162}
+  deckTransform: {fileID: 0}
 --- !u!1 &5076130482808714370
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,9 +102,8 @@ GameObject:
   - component: {fileID: 5076130482808714369}
   - component: {fileID: 5076130482808714383}
   - component: {fileID: 5076130482808714382}
-  - component: {fileID: 5076130482808714381}
   m_Layer: 5
-  m_Name: Player
+  m_Name: PlayerBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +128,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 500}
-  m_SizeDelta: {x: 158, y: 246}
+  m_SizeDelta: {x: 500, y: 246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5076130482808714383
 CanvasRenderer:
@@ -134,21 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2836a4851af404bf08f6a2ac85f2b5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5076130482808714381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5076130482808714370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74ed58ddea984ee3938566c138686df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardPool: {fileID: 750220122614105950}
-  handTransform: {fileID: 2135965162}
-  deckTransform: {fileID: 0}
 --- !u!1 &5819812419175819465
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class CardView : MonoBehaviour
     {
         this.card = card;
 
-        var spriteIndex = (DeckModel.CardsPerSuit * (int) card.Suit) + card.Rank;
+        var spriteIndex = (DeckModel.CardsPerSuit * (int) card.Suit) + card.Rank - 1;
 
         if (cardSprites.Length > spriteIndex)
         {

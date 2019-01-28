@@ -20,7 +20,7 @@ public class DeckModel
         {
             foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
-                for (int rank = 0; rank < CardsPerSuit; ++rank)
+                for (int rank = 1; rank <= CardsPerSuit; ++rank)
                 {
                     cards.Add(new CardModel(suit, rank));
                 }

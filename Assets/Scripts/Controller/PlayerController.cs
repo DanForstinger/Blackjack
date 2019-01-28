@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
         if (drawCardAction.OwningPlayer == Model.PlayerIndex)
         {
             Model.AddCard(drawCardAction.Card);
+            
+            var updateAction = new UpdateScoreAction(Model.Score, Model.PlayerIndex);
+            ActionSystem.Instance.PerformAction(updateAction);
         }
     }
 }
