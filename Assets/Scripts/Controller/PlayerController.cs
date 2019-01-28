@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerModel playerModel { get; private set; }
+    public PlayerModel Model { get; private set; }
 
     public void Initialize(int index)
     {
-        playerModel = new PlayerModel(index);
+        Model = new PlayerModel(index);
         
         Debug.Log(string.Format("Initialized a player controller at index {0}.", index));
     }
@@ -27,9 +27,9 @@ public class PlayerController : MonoBehaviour
     {
         var drawCardAction = (DrawCardAction)action;
 
-        if (drawCardAction.OwningPlayer == playerModel.PlayerIndex)
+        if (drawCardAction.OwningPlayer == Model.PlayerIndex)
         {
-            playerModel.AddCard(drawCardAction.Card);
+            Model.AddCard(drawCardAction.Card);
         }
     }
 }

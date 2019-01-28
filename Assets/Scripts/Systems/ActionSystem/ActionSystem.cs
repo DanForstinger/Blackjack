@@ -28,6 +28,8 @@ public class ActionSystem : MonoBehaviour
 
     private List<ActionViewer> currentlyExecutingViewers = new List<ActionViewer>();
 
+    private GameAction currentlyExecutingAction;
+    
     private Queue<GameAction> actionQueue = new Queue<GameAction>();
         
     //Used when we only have the type
@@ -55,8 +57,8 @@ public class ActionSystem : MonoBehaviour
         }
         else
         {
-            ListenerRegistry.InvokePerformEvent(action);
-
+            currentlyExecutingAction = action;
+            
             if (ViewerRegistry.HasViewers(action))
             {
                 StartActionViewers(action);
@@ -100,6 +102,8 @@ public class ActionSystem : MonoBehaviour
 
     private void CompleteAction()
     {
+        ListenerRegistry.InvokePerformEvent(currentlyExecutingAction);
+
         if (actionQueue.Count > 0)
         {
             PerformAction(actionQueue.Dequeue());

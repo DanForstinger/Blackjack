@@ -14,6 +14,6 @@ public abstract class PlayerActionViewer : ActionViewer
     public override bool WillViewAction(GameAction action)
     {
         var playerAction = action as IPlayerAction;
-        return playerAction.OwningPlayer == playerController.playerModel.PlayerIndex;
+        return playerAction.OwningPlayer == playerController.Model.PlayerIndex;
     }
 }
