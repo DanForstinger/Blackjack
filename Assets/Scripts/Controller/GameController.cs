@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private PlayerController[] players;
 
+    private int currentPlayer = 0;
+    
     void Awake()
     {
         Deck = new DeckModel();
@@ -39,8 +41,8 @@ public class GameController : MonoBehaviour
         DrawCard(0, true);
         DrawCard(0, true);
         
-        DrawCard(1, false);
         DrawCard(1, true);
+        DrawCard(1, false);
         
         ChangeTurn(1);
     }
@@ -56,21 +58,28 @@ public class GameController : MonoBehaviour
     {
         var hitAction = (HitAction) action;
 
-        DrawCard(hitAction.OwningPlayer, true);
-       
-        ChangeTurn(hitAction.OwningPlayer);
+        if (currentPlayer == hitAction.OwningPlayer)
+        {
+            DrawCard(hitAction.OwningPlayer, true);
+
+            ChangeTurn(hitAction.OwningPlayer);
+        }
     }
 
     void OnStayAction(GameAction action)
     {
         var stayAction = (StayAction) action;
-
-        ChangeTurn(stayAction.OwningPlayer);
+        if (currentPlayer == stayAction.OwningPlayer)
+        {
+            ChangeTurn(stayAction.OwningPlayer);
+        }
     }
     
     void ChangeTurn(int currentTurn)
     {
         int nextTurn = currentTurn == 0 ? 1 : 0;
+
+        currentPlayer = nextTurn;
         
         var changeTurnAction = new BeginTurnAction(nextTurn);
         ActionSystem.Instance.PerformAction(changeTurnAction);
