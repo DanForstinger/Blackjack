@@ -20,11 +20,13 @@ public class GameController : MonoBehaviour
     void OnEnable()
     {
         ActionSystem.Instance.ListenerRegistry.AddActionListener<HitAction>(OnHitAction);
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<StayAction>(OnStayAction);
     }
 
     void OnDisable()
     {
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<HitAction>(OnHitAction);    
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStayAction);   
     }
     
     void Start()
@@ -46,15 +48,22 @@ public class GameController : MonoBehaviour
         var hitAction = (HitAction) action;
 
         DrawCard(hitAction.OwningPlayer, true);
-        
-        int nextTurn = hitAction.OwningPlayer == 0 ? 1 : 0;
-
-        ChangeTurn(nextTurn);
+       
+        ChangeTurn(hitAction.OwningPlayer);
     }
 
-    void ChangeTurn(int newTurn)
+    void OnStayAction(GameAction action)
     {
-        var changeTurnAction = new BeginTurnAction(newTurn);
+        var stayAction = (StayAction) action;
+
+        ChangeTurn(stayAction.OwningPlayer);
+    }
+    
+    void ChangeTurn(int currentTurn)
+    {
+        int nextTurn = currentTurn == 0 ? 1 : 0;
+        
+        var changeTurnAction = new BeginTurnAction(nextTurn);
         ActionSystem.Instance.PerformAction(changeTurnAction);
     }
 }
