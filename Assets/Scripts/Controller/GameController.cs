@@ -28,17 +28,26 @@ public class GameController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<HitAction>(OnHitAction);    
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStayAction);   
     }
-    
+
     void Start()
+    {
+        StartGame();
+    }
+    
+    void StartGame()
     {
         DrawCard(0, true);
         DrawCard(0, true);
+        
         DrawCard(1, false);
         DrawCard(1, true);
+        
+        ChangeTurn(1);
     }
     
     void DrawCard(int drawingPlayerIndex, bool shouldReveal)
     {
+        //todo: should all player actions require an index, or a controller?
         var drawCardAction = new DrawCardAction(Deck.DrawCard(), drawingPlayerIndex, shouldReveal);
         ActionSystem.Instance.PerformAction(drawCardAction);
     }
