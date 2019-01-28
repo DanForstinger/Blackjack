@@ -37,10 +37,10 @@ public class PlayerModel
 
             if (rank == 1) //track the aces
             {
+                total += 11;
                 numberOfAces++;
             }
-            
-            if (rank <= 10) //normal numeric value
+            else if (rank <= 10) //normal numeric value
             {
                 total += rank;
             }
@@ -54,6 +54,7 @@ public class PlayerModel
         {
             total -= 10;
         }
+        
         return total;
     }
 

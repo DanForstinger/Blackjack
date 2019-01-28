@@ -1,10 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
-
-[Serializable]
-public class ActionEvent : UnityEvent<GameAction> {}
 
 public class ActionListenerRegistry
 {

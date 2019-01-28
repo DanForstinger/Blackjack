@@ -1,25 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//This view disables its children while actions are executing.
 public class ActionExecutingDisabledView : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private GameObject container;
     
-    [SerializeField] private GameObject toggledObject;
-
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn); 
+        ActionSystem.Instance.OnBeginPerform.AddListener(OnBeginPerform);
+        ActionSystem.Instance.OnFinishPerform.AddListener(OnFinishPerform);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn); 
+        ActionSystem.Instance.OnBeginPerform.RemoveListener(OnBeginPerform);
+        ActionSystem.Instance.OnFinishPerform.RemoveListener(OnFinishPerform);
     }
 
-    void OnBeginTurn(GameAction action)
+    void OnBeginPerform(GameAction action)
     {
-        var turnAction = (BeginTurnAction) action;
-        toggledObject.SetActive(turnAction.OwningPlayer == playerController.Model.PlayerIndex);
+        Debug.Log("BEGIN");
+        container.SetActive(false);
+    }
+
+    void OnFinishPerform(GameAction action)
+    {
+        Debug.Log("FINISH");
+        container.SetActive(true);
     }
 }

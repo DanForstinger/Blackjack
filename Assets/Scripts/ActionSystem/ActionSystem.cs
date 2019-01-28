@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
+
+[Serializable]
+public class ActionEvent : UnityEvent<GameAction> {}
 
 [CreateAssetMenu]
 public class ActionSystem : MonoBehaviour
@@ -22,6 +26,9 @@ public class ActionSystem : MonoBehaviour
         }
     }
 
+    public ActionEvent OnBeginPerform = new ActionEvent();
+    public ActionEvent OnFinishPerform = new ActionEvent();
+    
     public ActionViewerRegistry ViewerRegistry = new ActionViewerRegistry();
         
     public ActionListenerRegistry ListenerRegistry = new ActionListenerRegistry();
@@ -57,6 +64,8 @@ public class ActionSystem : MonoBehaviour
         }
         else
         {
+            OnBeginPerform.Invoke(action);
+            
             currentlyExecutingAction = action;
             
             if (ViewerRegistry.HasViewers(action))
@@ -107,6 +116,10 @@ public class ActionSystem : MonoBehaviour
         if (actionQueue.Count > 0)
         {
             PerformAction(actionQueue.Dequeue());
+        }
+        else //we're done here
+        {        
+            OnFinishPerform.Invoke(currentlyExecutingAction);
         }
     }
 }

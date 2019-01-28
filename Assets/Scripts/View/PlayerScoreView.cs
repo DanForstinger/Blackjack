@@ -20,7 +20,10 @@ public class PlayerScoreView : MonoBehaviour
     public void OnUpdateScore(GameAction action)
     {
         var updateScoreAction = (UpdateScoreAction) action;
-        
-        scoreText.text = "" + updateScoreAction.Score;
+
+        if (updateScoreAction.OwningPlayer == playerController.Model.PlayerIndex)
+        {
+            scoreText.text = "" + updateScoreAction.Score;
+        }
     }
 }
