@@ -39,8 +39,8 @@ public class GameController : MonoBehaviour
         DrawCard(0, true);
         DrawCard(0, true);
         
-        DrawCard(1, true);
         DrawCard(1, false);
+        DrawCard(1, true);
         
         ChangeTurn(1);
     }
