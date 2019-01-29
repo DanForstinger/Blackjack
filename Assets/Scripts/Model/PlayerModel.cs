@@ -6,6 +6,12 @@ public class PlayerModel
 {
     public int PlayerIndex;
 
+    public bool DidStay = false;
+    public bool DidBust
+    {
+        get { return IsBust(Score); }
+    }
+    
     public List<CardModel> Cards;
 
     public int Score { get; private set; }

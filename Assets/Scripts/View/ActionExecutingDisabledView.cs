@@ -20,13 +20,11 @@ public class ActionExecutingDisabledView : MonoBehaviour
 
     void OnBeginPerform(GameAction action)
     {
-        Debug.Log("BEGIN");
         container.SetActive(false);
     }
 
     void OnFinishPerform(GameAction action)
     {
-        Debug.Log("FINISH");
         container.SetActive(true);
     }
 }

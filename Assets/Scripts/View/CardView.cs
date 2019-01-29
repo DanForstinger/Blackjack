@@ -10,6 +10,17 @@ public class CardView : MonoBehaviour
 
     private CardModel card;
 
+    void OnEnable()
+    {
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<EndGameAction>(OnGameEnd);
+    }
+    
+    void OnDisable()
+    {
+        //todo: Shorten the length of this call.
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<EndGameAction>(OnGameEnd);
+    }
+    
     public void SetCard(CardModel card, bool isRevealed)
     {
         this.card = card;
@@ -32,5 +43,10 @@ public class CardView : MonoBehaviour
     {
         cardFront.enabled = isRevealed;
         cardBack.enabled = !isRevealed;
+    }
+
+    void OnGameEnd(GameAction action)
+    {
+        SetRevealed(true);
     }
 }

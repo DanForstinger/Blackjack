@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 //todo: split into smaller components?
 public class GameController : MonoBehaviour
@@ -21,22 +22,19 @@ public class GameController : MonoBehaviour
 
     void OnEnable()
     {
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<StartGameAction>(OnStartGame);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<HitAction>(OnHitAction);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<StayAction>(OnStayAction);
     }
 
     void OnDisable()
     {
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StartGameAction>(OnStartGame);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<HitAction>(OnHitAction);    
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStayAction);   
     }
-
-    void Start()
-    {
-        StartGame();
-    }
     
-    void StartGame()
+    void OnStartGame(GameAction action)
     {
         DrawCard(0, true);
         DrawCard(0, true);
@@ -80,8 +78,21 @@ public class GameController : MonoBehaviour
         int nextTurn = currentTurn == 0 ? 1 : 0;
 
         currentPlayer = nextTurn;
-        
-        var changeTurnAction = new BeginTurnAction(nextTurn);
-        ActionSystem.Instance.PerformAction(changeTurnAction);
+
+        if (IsGameOver())
+        {
+            var gameOverAction = new EndGameAction();
+            ActionSystem.Instance.PerformAction(gameOverAction);
+        }
+        else
+        {
+            var changeTurnAction = new BeginTurnAction(nextTurn);
+            ActionSystem.Instance.PerformAction(changeTurnAction);
+        }
+    }
+
+    bool IsGameOver()
+    {
+        return players.All(player => player.Model.DidStay || player.Model.DidBust);
     }
 }
