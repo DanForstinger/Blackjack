@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+//todo: Actually remove cards from the deck instead of using this int.
 [System.Serializable]
 public class DeckModel
 {
     public const int CardsPerSuit = 13;
     public const int DeckCount = 8;
-    
-    private List<CardModel> cards;
-
-    private int currentDeckIndex;
+    public List<CardModel> Cards;
+    public int CurrentDeckIndex;
 
     public DeckModel()
     {
-        cards = new List<CardModel>();
+        Cards = new List<CardModel>();
 
         for (int i = 0; i < DeckCount; ++i)
         {
@@ -22,22 +22,22 @@ public class DeckModel
             {
                 for (int rank = 1; rank <= CardsPerSuit; ++rank)
                 {
-                    cards.Add(new CardModel(suit, rank));
+                    Cards.Add(new CardModel(suit, rank));
                 }
             }
         }
 
-        Debug.Log(string.Format("Created a deck with {0} cards.", cards.Count));
+        Debug.Log(string.Format("Created a deck with {0} cards.", Cards.Count));
         
         ShuffleDeck();
     }
 
     public CardModel DrawCard()
     {
-        var card = cards[currentDeckIndex];
+        var card = Cards[CurrentDeckIndex];
         
-        currentDeckIndex++;
-        if (currentDeckIndex >= cards.Count)
+        CurrentDeckIndex++;
+        if (CurrentDeckIndex >= Cards.Count)
         {
             ShuffleDeck();
         }
@@ -47,7 +47,7 @@ public class DeckModel
 
     public void ShuffleDeck()
     {
-        cards.Shuffle();
-        currentDeckIndex = 0;
+        Cards.Shuffle();
+        CurrentDeckIndex = 0;
     }
 }

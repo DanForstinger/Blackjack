@@ -8,6 +8,12 @@ A simple game of blackjack, built as part of a coding challenge.
 - I am aware that singletons are not good
 - Clear delineation between Views and the underlying data. Easier to debug, easier to write netcode with, etc.
 
+Data
+- GameSerializer is a basic class that prints out the state of the last game and saves the state at the end of each game.
+- Entire game is a game model, with child models within it.
+- Game state can be saved but is not restored, because of time restrictions
+- Action system could be pretty easily extended to support saving the history, undoing, etc.
+
 Action System
 
 - Game Actions are managed by the Action System. They have phases.

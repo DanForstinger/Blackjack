@@ -2,6 +2,7 @@
 using UnityEngine;
 
 //todo: Should the hand be its own model?
+[System.Serializable]
 public class PlayerModel
 {
     public int PlayerIndex;
@@ -15,10 +16,10 @@ public class PlayerModel
         get { return IsBust(Score); }
     }
     
+    public int Score;
+
     public List<CardModel> Cards;
 
-    public int Score { get; private set; }
-    
     public PlayerModel(int index)
     {
         Cards = new List<CardModel>();

@@ -3,8 +3,8 @@
 [System.Serializable]
 public class CardModel
 {
-    public Suit Suit { get; private set; }
-    public int Rank { get; private set; }
+    public Suit Suit;
+    public int Rank;
 
     public CardModel(Suit suit, int rank)
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 //todo: split into smaller components?
 public class GameController : MonoBehaviour
 {
-    public DeckModel Deck { get; private set; }
+    public GameModel Model { get; private set; }
     
     [SerializeField] private PlayerController[] players;
     
@@ -13,15 +13,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject GameplayControlsUI;
     
     private int currentPlayer = 0;
-  
-    void Awake()
-    {
-        Deck = new DeckModel();
 
+    void Awake()
+    {   
+        var playerModels = new PlayerModel[players.Length];
+        
         for (int i = 0; i < players.Length; ++i)
         {
-            players[i].Initialize(i);
+            var model = players[i].Initialize(i);
+            playerModels[i] = model;
         }
+        
+        Model = new GameModel(playerModels);
     }
 
     void OnEnable()
@@ -43,6 +46,8 @@ public class GameController : MonoBehaviour
 
     void OnStartGame(GameAction action)
     {
+        Model.Deck.ShuffleDeck();
+        
         BetPlacementUI.SetActive(true);
         GameplayControlsUI.SetActive(false);
     }
@@ -69,7 +74,7 @@ public class GameController : MonoBehaviour
     void DrawCard(int drawingPlayerIndex, bool shouldReveal)
     {
         //todo: should all player actions require an index, or a controller?
-        var drawCardAction = new DrawCardAction(Deck.DrawCard(), drawingPlayerIndex, shouldReveal);
+        var drawCardAction = new DrawCardAction(Model.Deck.DrawCard(), drawingPlayerIndex, shouldReveal);
         ActionSystem.Instance.PerformAction(drawCardAction);
     }
     
