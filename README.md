@@ -19,6 +19,7 @@ Action System
 - More moddability in the editor. 
 - Animations done using components and not in code, but code suited the scope of this project better.
 
+- Screen manager is simple, would get out of hand having everything in one scene but could be easily broken up
 # Added Features
 
 ## SARCASTIC DEALER

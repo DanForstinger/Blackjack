@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[RequireComponent(typeof(StackNavigator))]
 public class ScreenStateController : MonoBehaviour
 {
-    //todo: The more screens you add the worse this gets.
-    [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject gameplay;
-    [SerializeField] GameObject gameOver;
+    //todo: should this dependency be shared with StackNavigator
+    [SerializeField] GameObject gameplayScreen;
+    [FormerlySerializedAs("gameOver")] [SerializeField] GameObject gameOverScreen;
+
+    private StackNavigator navigator;
+
+    void Awake()
+    {
+        navigator = GetComponent<StackNavigator>();
+    }
     
     void OnEnable()
     {
@@ -21,27 +29,13 @@ public class ScreenStateController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<EndGameAction>(OnGameEnd);
     }
 
-    void Start()
-    {
-        mainMenu.SetActive(true);
-        
-        gameplay.SetActive(false);
-        gameOver.SetActive(false);
-    }
-    
     void OnGameStart(GameAction action)
     {
-        gameplay.SetActive(true);
-
-        mainMenu.SetActive(false);
-        gameOver.SetActive(false);
+        navigator.Navigate(gameplayScreen);
     }
 
     void OnGameEnd(GameAction action)
     {
-        gameOver.SetActive(true);
-        
-        mainMenu.SetActive(false);
-        gameplay.SetActive(false);
+        navigator.Navigate(gameOverScreen);
     }
 }
