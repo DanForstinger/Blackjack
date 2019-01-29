@@ -59,6 +59,7 @@ public class PlayerModel
         while (IsBust(total) && numberOfAces > 0)
         {
             total -= 10;
+            numberOfAces--;
         }
         
         return total;
