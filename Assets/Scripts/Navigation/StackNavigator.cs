@@ -26,7 +26,6 @@ public class StackNavigator : MonoBehaviour
     {
         if (navigationStack.Count > 0)
         {
-            Debug.Log("DEACTIVATING CURRENT");
             navigationStack.Peek().SetActive(false);
         }
 

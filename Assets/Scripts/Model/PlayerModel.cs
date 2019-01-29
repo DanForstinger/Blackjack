@@ -6,7 +6,10 @@ public class PlayerModel
 {
     public int PlayerIndex;
 
+    public int Bet = 0;
+    
     public bool DidStay = false;
+    
     public bool DidBust
     {
         get { return IsBust(Score); }

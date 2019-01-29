@@ -7,18 +7,20 @@ public abstract class PlayerController : MonoBehaviour
 {
     public PlayerModel Model { get; private set; }
 
-    public void Initialize(int index)
+    public PlayerModel Initialize(int index)
     {
         Model = new PlayerModel(index);
         
         Debug.Log(string.Format("Initialized a player controller at index {0}.", index));
+
+        return Model;
     }
-    
+
     void OnEnable()
     {
         ActionSystem.Instance.ListenerRegistry.AddActionListener<DrawCardAction>(OnDrawCard);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
-        
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnAddBet);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<StayAction>(OnStay);
     }
 
@@ -26,7 +28,7 @@ public abstract class PlayerController : MonoBehaviour
     {
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DrawCardAction>(OnDrawCard);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
-        
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnAddBet);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStay);
     }
 
@@ -63,6 +65,16 @@ public abstract class PlayerController : MonoBehaviour
             BeginTurn();
         }
     }
-    
+
+    void OnAddBet(GameAction action)
+    {
+        var betAction = (PlaceBetAction) action;
+
+        if (betAction.OwningPlayer == Model.PlayerIndex)
+        {
+            Model.Bet = betAction.Value;
+        }
+    }
+
     protected abstract void BeginTurn();
 }
