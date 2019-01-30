@@ -5,11 +5,10 @@ using UnityEngine;
 public class AIPlayerController : PlayerController
 {
     //todo: Put constants somewhere?
-    private const int maxScoreToHit = 17;
-    
+    [SerializeField] private IntRangeValue maxHitValue;
     protected override void BeginTurn()
     {
-        if (Model.Score < maxScoreToHit)
+        if (Model.Score < maxHitValue.Value) 
         {
             var hitAction = new HitAction(Model.PlayerIndex);
             ActionSystem.Instance.PerformAction(hitAction);

@@ -35,7 +35,7 @@ public class StackNavigator : MonoBehaviour
 
     public void NavigateBack()
     {
-        if (navigationStack.Count > 2)
+        if (navigationStack.Count > 1)
         {
             var toHide = navigationStack.Pop();
             toHide.SetActive(false);
