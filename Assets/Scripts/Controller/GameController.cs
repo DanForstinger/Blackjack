@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public GameModel Model { get; private set; }
-    
+
+    public IntRangeValue StartingMoney;
+  
     [SerializeField] private AIPlayerController dealer;
 
     //To support multiple players, make this an array of players.
@@ -21,8 +23,8 @@ public class GameController : MonoBehaviour
     {
         var playerModels = new PlayerModel[2];
         
-        playerModels[0] = player.Initialize(0, true);
-        playerModels[1] = dealer.Initialize(1, false);
+        playerModels[0] = player.Initialize(0, true, StartingMoney.Value);
+        playerModels[1] = dealer.Initialize(1, false, StartingMoney.Value);
 
         Model = new GameModel(playerModels);
     }
@@ -114,7 +116,7 @@ public class GameController : MonoBehaviour
             ActionSystem.Instance.PerformAction(gameOverAction);
 
             var winner = CalculateWinner();
-            
+
             var declareWinnerAction = new DeclareWinnerAction(Model.Players[winner], Model.Players[1-winner]);
             ActionSystem.Instance.PerformAction(declareWinnerAction);
         }

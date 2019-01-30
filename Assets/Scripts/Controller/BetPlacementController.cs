@@ -34,7 +34,7 @@ public class BetPlacementController : MonoBehaviour
         var chipObj = Instantiate(chipPrefab.gameObject) as GameObject;
         var chipButton = chipObj.GetComponent<AddBetValueButtonController>();
         
-        chipButton.Initialize(chip.Value, chip.ChipSprite, playerController.Model.PlayerIndex);
+        chipButton.Initialize(chip.Value, chip.ChipSprite, playerController.Model);
         
         chipObj.transform.SetParent(chipContainer);
         chipObj.transform.localScale = Vector3.one;

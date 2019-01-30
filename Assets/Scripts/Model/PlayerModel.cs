@@ -9,6 +9,8 @@ public class PlayerModel
 
     public int Bet = 0;
     
+    public int Money;
+    
     public bool DidStay = false;
     
     public bool DidBust
@@ -22,12 +24,13 @@ public class PlayerModel
 
     public List<CardModel> Cards;
 
-    public PlayerModel(int index, bool isLocalPlayer)
+    public PlayerModel(int index, bool isLocalPlayer, int startingMoney)
     {
         IsLocalPlayer = isLocalPlayer;
         Cards = new List<CardModel>();
         PlayerIndex = index;
         Score = 0;
+        Money = startingMoney;
     }
     
     public void AddCard(CardModel card)

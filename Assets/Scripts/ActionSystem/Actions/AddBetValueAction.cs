@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class AddBetValueAction : GameAction
+public class AddBetValueAction : GameAction, IPlayerAction
 {
     public Sprite Chip { get; private set; }
     public int Value { get; private set; }
