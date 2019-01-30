@@ -20,8 +20,6 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private IntRangeValue startingMoney;
     [SerializeField] private IntRangeValue minimumBet;
-    
-    private int currentPlayer = 0;
 
     void Awake()
     {
@@ -83,7 +81,7 @@ public class GameController : MonoBehaviour
     {
         var hitAction = (HitAction) action;
 
-        if (currentPlayer == hitAction.Player.PlayerIndex)
+        if (Model.CurrentPlayerTurn == hitAction.Player.PlayerIndex)
         {
             DrawCard(hitAction.Player, true);
 
@@ -97,7 +95,7 @@ public class GameController : MonoBehaviour
 
         Model.Players[stayAction.Player.PlayerIndex].DidStay = true;
         
-        if (currentPlayer == stayAction.Player.PlayerIndex)
+        if (Model.CurrentPlayerTurn  == stayAction.Player.PlayerIndex)
         {
             ChangeTurn(stayAction.Player.PlayerIndex);
         }
@@ -107,7 +105,7 @@ public class GameController : MonoBehaviour
     {
         int nextTurn = currentTurn == 0 ? 1 : 0;
 
-        currentPlayer = nextTurn;
+        Model.CurrentPlayerTurn  = nextTurn;
 
         if (IsGameOver())
         {

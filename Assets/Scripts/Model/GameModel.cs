@@ -8,6 +8,8 @@ public class GameModel
     public PlayerModel[] Players;
     public DeckModel Deck;
     public GameResult Result = GameResult.Undeclared;
+    public int CurrentPlayerTurn = 0;
+
     
     public int Winner;
     

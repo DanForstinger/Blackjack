@@ -19,15 +19,19 @@ public class DealerDialogueController : MonoBehaviour
         "I believe in you.",
         "I'd hit that",
         "Don't take all day.",
+        "Think you've got what it takes?",
+        "You can do it, bub.",
         "The stakes are high.",
-        "BLACKJACK! Just kidding.",
-        "Your turn bub."
+        "BLACKJACK! ... Just kidding",
+        "Your turn, bub."
     };
 
     private readonly string[] victoryLines =
     {
         "You counting cards?",
         "Nice! You did it!",
+        "Don't spend it all in one place.",
+        "Don't forget to tip your dealer.",
         "You win this one, bub."
     };
 
@@ -35,6 +39,7 @@ public class DealerDialogueController : MonoBehaviour
     {
         "I don't mind taking your money.",
         "The house always wins.",
+        "There's always next time.",
         "Today's not your day, pal."
     };
     
