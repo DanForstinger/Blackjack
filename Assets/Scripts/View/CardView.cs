@@ -12,13 +12,12 @@ public class CardView : MonoBehaviour
 
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<EndGameAction>(OnGameEnd);
+        ActionSystem.Instance.Listeners.AddListener<EndGameAction>(OnGameEnd);
     }
     
     void OnDisable()
     {
-        //todo: Shorten the length of this call.
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<EndGameAction>(OnGameEnd);
+        ActionSystem.Instance.Listeners.RemoveListener<EndGameAction>(OnGameEnd);
     }
     
     public void SetCard(CardModel card, bool isRevealed)

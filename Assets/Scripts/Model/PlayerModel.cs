@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-//todo: Should the hand be its own model?
 [System.Serializable]
 public class PlayerModel
 {
@@ -22,12 +21,12 @@ public class PlayerModel
     
     public int Score;
 
-    public List<CardModel> Cards;
+    public List<CardModel> Hand;
 
     public PlayerModel(int index, bool isLocalPlayer, int startingMoney)
     {
         IsLocalPlayer = isLocalPlayer;
-        Cards = new List<CardModel>();
+        Hand = new List<CardModel>();
         PlayerIndex = index;
         Score = 0;
         Money = startingMoney;
@@ -35,7 +34,7 @@ public class PlayerModel
     
     public void AddCard(CardModel card)
     {
-        Cards.Add(card);
+        Hand.Add(card);
 
         Score = CalculateHandTotal();
         
@@ -47,7 +46,7 @@ public class PlayerModel
         int total = 0;
         int numberOfAces = 0;
         
-        foreach (var card in Cards)
+        foreach (var card in Hand)
         {
             int rank = card.Rank; //convert from 0 based to 1 based
 

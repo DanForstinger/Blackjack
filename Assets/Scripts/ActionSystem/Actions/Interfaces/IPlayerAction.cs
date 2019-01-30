@@ -1,4 +1,4 @@
 ﻿public interface IPlayerAction
 {
-    int OwningPlayer { get; set; }
+    PlayerModel Player { get; set; }
 }

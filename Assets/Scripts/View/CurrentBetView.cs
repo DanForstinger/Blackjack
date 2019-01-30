@@ -15,14 +15,14 @@ public class CurrentBetView : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AddBetValueAction>(OnAddValue); 
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<PlaceBetAction>(OnPlaceBet); 
+        ActionSystem.Instance.Listeners.AddListener<AddBetValueAction>(OnAddValue); 
+        ActionSystem.Instance.Listeners.AddListener<PlaceBetAction>(OnPlaceBet); 
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<AddBetValueAction>(OnAddValue);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnPlaceBet); 
+        ActionSystem.Instance.Listeners.RemoveListener<AddBetValueAction>(OnAddValue);
+        ActionSystem.Instance.Listeners.RemoveListener<PlaceBetAction>(OnPlaceBet); 
     }
 
 
@@ -35,7 +35,6 @@ public class CurrentBetView : MonoBehaviour
         text.text = string.Format("${0}", bet);
     }
     
-    //todo: Place bet should be the only action, and value should accumulate in the controller?
     void OnPlaceBet(GameAction action)
     {
         var betAction = (PlaceBetAction) action;

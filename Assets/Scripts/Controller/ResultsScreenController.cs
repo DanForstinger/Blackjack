@@ -13,12 +13,12 @@ public class ResultsScreenController : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareGameResult);
+        ActionSystem.Instance.Listeners.AddListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareGameResult);
+        ActionSystem.Instance.Listeners.RemoveListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnDeclareGameResult(GameAction action)

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class AIPlayerController : PlayerController
 {
-    //todo: Put constants somewhere?
     [SerializeField] private IntRangeValue maxHitValue;
+    
     protected override void BeginTurn()
     {
         if (Model.Score < maxHitValue.Value) 
         {
-            var hitAction = new HitAction(Model.PlayerIndex);
+            var hitAction = new HitAction(Model);
             ActionSystem.Instance.PerformAction(hitAction);
         }
         else
         {
-            var stayAction = new StayAction(Model.PlayerIndex);
+            var stayAction = new StayAction(Model);
             ActionSystem.Instance.PerformAction(stayAction);
         }
     }

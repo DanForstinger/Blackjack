@@ -13,12 +13,12 @@ public class CurrentTurnTextView : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn); 
+        ActionSystem.Instance.Listeners.AddListener<BeginTurnAction>(OnBeginTurn); 
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn); 
+        ActionSystem.Instance.Listeners.RemoveListener<BeginTurnAction>(OnBeginTurn); 
     }
 
 
@@ -26,7 +26,7 @@ public class CurrentTurnTextView : MonoBehaviour
     {
         var turnAction = (BeginTurnAction) action;
         
-        var currentPlayer = turnAction.OwningPlayer == 0 ? "Player" : "Dealer";
+        var currentPlayer = turnAction.Player.IsLocalPlayer ? "Player" : "Dealer";
 
         text.text = string.Format("{0}'s Turn!", currentPlayer);
     }

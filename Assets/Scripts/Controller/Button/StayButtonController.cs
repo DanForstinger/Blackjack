@@ -6,7 +6,7 @@ public class StayButtonController : ButtonController
     
     protected override void OnButtonClicked()
     {
-        var stayAction = new StayAction(playerController.Model.PlayerIndex);
+        var stayAction = new StayAction(playerController.Model);
         ActionSystem.Instance.PerformAction(stayAction);
     }
 }

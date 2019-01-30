@@ -28,7 +28,7 @@ public class ActionViewerRegistry
         }
     }
     
-    public void RegisterViewer<T>(ActionViewer viewer) where T : GameAction
+    public void AddViewer<T>(ActionViewer viewer) where T : GameAction
     {
         var typeName = ActionSystem.GetActionType<T>();
         
@@ -40,7 +40,7 @@ public class ActionViewerRegistry
         actionViewerMap[typeName].Add(viewer);
     }
 
-    public void UnregisterViewer<T>(ActionViewer viewer) where T : GameAction
+    public void RemoveViewer<T>(ActionViewer viewer) where T : GameAction
     {
         var typeName = ActionSystem.GetActionType<T>();
         

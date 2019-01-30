@@ -21,6 +21,7 @@ Settings
 
 Action System
 
+- Address the singleton in the room
 - Game Actions are managed by the Action System. They have phases.
 - RegisterViewers,  
 - In a normal card game like magic, you would allow other things to add a "Response" to any action, that would play out before the main one executed. That would be a neat way to extend this system.

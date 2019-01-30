@@ -12,15 +12,15 @@ public enum GameResult
 //todo: split into smaller components?
 public class GameController : MonoBehaviour
 {
+    public AIPlayerController Dealer;
+
+    //To support multiple players, make this an array of players.
+    public InputPlayerController LocalPlayer;
+    
     public GameModel Model { get; private set; }
 
     [SerializeField] private IntRangeValue startingMoney;
     [SerializeField] private IntRangeValue minimumBet;
-    
-    [SerializeField] private AIPlayerController dealer;
-
-    //To support multiple players, make this an array of players.
-    [SerializeField] private InputPlayerController player;
     
     //todo; Seperate class?
     [SerializeField] private GameObject BetPlacementUI;
@@ -32,27 +32,26 @@ public class GameController : MonoBehaviour
     {
         var playerModels = new PlayerModel[2];
         
-        playerModels[0] = player.Initialize(0, true, startingMoney.Value);
-        playerModels[1] = dealer.Initialize(1, false, startingMoney.Value);
+        playerModels[0] = LocalPlayer.Initialize(0, true, startingMoney.Value);
+        playerModels[1] = Dealer.Initialize(1, false, startingMoney.Value);
 
         Model = new GameModel(playerModels);
     }
 
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<StartGameAction>(OnStartGame);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<PlaceBetAction>(OnPlaceBet);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<HitAction>(OnHitAction);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<StayAction>(OnStayAction);
+        ActionSystem.Instance.Listeners.AddListener<StartGameAction>(OnStartGame);
+        ActionSystem.Instance.Listeners.AddListener<PlaceBetAction>(OnPlaceBet);
+        ActionSystem.Instance.Listeners.AddListener<HitAction>(OnHitAction);
+        ActionSystem.Instance.Listeners.AddListener<StayAction>(OnStayAction);
     }
 
     void OnDisable()
     {
-        //todo: Rename to event system?
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StartGameAction>(OnStartGame);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnPlaceBet);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<HitAction>(OnHitAction);    
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStayAction);   
+        ActionSystem.Instance.Listeners.RemoveListener<StartGameAction>(OnStartGame);
+        ActionSystem.Instance.Listeners.RemoveListener<PlaceBetAction>(OnPlaceBet);
+        ActionSystem.Instance.Listeners.RemoveListener<HitAction>(OnHitAction);    
+        ActionSystem.Instance.Listeners.RemoveListener<StayAction>(OnStayAction);   
     }
 
     void OnStartGame(GameAction action)
@@ -62,7 +61,7 @@ public class GameController : MonoBehaviour
         BetPlacementUI.SetActive(true);
         GameplayControlsUI.SetActive(false);
         
-        var betAction = new AddBetValueAction(minimumBet.Value, player.Model.PlayerIndex);
+        var betAction = new AddBetValueAction(minimumBet.Value, LocalPlayer.Model);
         ActionSystem.Instance.PerformAction(betAction);
     }
     
@@ -78,17 +77,16 @@ public class GameController : MonoBehaviour
 
     private void DealCards()
     {
-        DrawCard(0, true);
-        DrawCard(0, true);
+        DrawCard(LocalPlayer.Model, true);
+        DrawCard(LocalPlayer.Model, true);
 
-        DrawCard(1, false);
-        DrawCard(1, true);
+        DrawCard(Dealer.Model, false);
+        DrawCard(Dealer.Model, true);
     }
 
-    void DrawCard(int drawingPlayerIndex, bool shouldReveal)
+    void DrawCard(PlayerModel player, bool shouldReveal)
     {
-        //todo: should all player actions require an index, or a controller?
-        var drawCardAction = new DrawCardAction(Model.Deck.DrawCard(), drawingPlayerIndex, shouldReveal);
+        var drawCardAction = new DrawCardAction(Model.Deck.DrawCard(), player, shouldReveal);
         ActionSystem.Instance.PerformAction(drawCardAction);
     }
     
@@ -96,11 +94,11 @@ public class GameController : MonoBehaviour
     {
         var hitAction = (HitAction) action;
 
-        if (currentPlayer == hitAction.OwningPlayer)
+        if (currentPlayer == hitAction.Player.PlayerIndex)
         {
-            DrawCard(hitAction.OwningPlayer, true);
+            DrawCard(hitAction.Player, true);
 
-            ChangeTurn(hitAction.OwningPlayer);
+            ChangeTurn(hitAction.Player.PlayerIndex);
         }
     }
 
@@ -108,11 +106,11 @@ public class GameController : MonoBehaviour
     {
         var stayAction = (StayAction) action;
 
-        Model.Players[stayAction.OwningPlayer].DidStay = true;
+        Model.Players[stayAction.Player.PlayerIndex].DidStay = true;
         
-        if (currentPlayer == stayAction.OwningPlayer)
+        if (currentPlayer == stayAction.Player.PlayerIndex)
         {
-            ChangeTurn(stayAction.OwningPlayer);
+            ChangeTurn(stayAction.Player.PlayerIndex);
         }
     }
     
@@ -128,7 +126,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            var changeTurnAction = new BeginTurnAction(nextTurn);
+            var changeTurnAction = new BeginTurnAction(Model.Players[nextTurn]);
             ActionSystem.Instance.PerformAction(changeTurnAction);
         }
     }
@@ -140,17 +138,17 @@ public class GameController : MonoBehaviour
 
         var result = CalculateResult();
 
-        var declareResultAction = new DeclareGameResultAction(player.Model, dealer.Model, result);
+        var declareResultAction = new DeclareGameResultAction(LocalPlayer.Model, Dealer.Model, result);
         ActionSystem.Instance.PerformAction(declareResultAction);
     }
 
     GameResult CalculateResult()
     {
-        if (!player.Model.DidBust && (player.Model.Score > dealer.Model.Score || dealer.Model.DidBust))
+        if (!LocalPlayer.Model.DidBust && (LocalPlayer.Model.Score > Dealer.Model.Score || Dealer.Model.DidBust))
         {
             return GameResult.PlayerWins;
         }
-        else if ((player.Model.DidBust && dealer.Model.DidBust) || player.Model.Score == dealer.Model.Score)
+        else if ((LocalPlayer.Model.DidBust && Dealer.Model.DidBust) || LocalPlayer.Model.Score == Dealer.Model.Score)
         {
             return GameResult.Tie;
         }

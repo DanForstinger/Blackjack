@@ -2,11 +2,11 @@
 public class UpdateScoreAction : GameAction, IPlayerAction
 {
     public int Score { get; private set; }
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
     
-    public UpdateScoreAction(int score, int playerIndex)
+    public UpdateScoreAction(int score, PlayerModel player)
     {
         Score = score;
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

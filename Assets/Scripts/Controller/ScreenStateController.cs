@@ -19,14 +19,14 @@ public class ScreenStateController : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<StartGameAction>(OnGameStart);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<EndGameAction>(OnGameEnd);
+        ActionSystem.Instance.Listeners.AddListener<StartGameAction>(OnGameStart);
+        ActionSystem.Instance.Listeners.AddListener<EndGameAction>(OnGameEnd);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StartGameAction>(OnGameStart);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<EndGameAction>(OnGameEnd);
+        ActionSystem.Instance.Listeners.RemoveListener<StartGameAction>(OnGameStart);
+        ActionSystem.Instance.Listeners.RemoveListener<EndGameAction>(OnGameEnd);
     }
 
     void OnGameStart(GameAction action)

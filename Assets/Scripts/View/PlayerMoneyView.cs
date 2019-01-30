@@ -15,12 +15,12 @@ public class PlayerMoneyView : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AdjustPlayerMoneyAction>(OnAdjustMoney); 
+        ActionSystem.Instance.Listeners.AddListener<AdjustPlayerMoneyAction>(OnAdjustMoney); 
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
+        ActionSystem.Instance.Listeners.RemoveListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
     }
 
     void Start()

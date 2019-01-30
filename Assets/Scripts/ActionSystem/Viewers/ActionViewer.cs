@@ -12,11 +12,11 @@ public abstract class ActionViewer : MonoBehaviour
     
     protected void RegisterViewer<T>() where T : GameAction
     {
-        ActionSystem.Instance.ViewerRegistry.RegisterViewer<T>(this);
+        ActionSystem.Instance.Viewers.AddViewer<T>(this);
     }
 
     protected void UnregisterViewer<T>() where T : GameAction
     {
-        ActionSystem.Instance.ViewerRegistry.UnregisterViewer<T>(this);
+        ActionSystem.Instance.Viewers.RemoveViewer<T>(this);
     }  
 }

@@ -5,11 +5,11 @@ public class PlaceBetAction : GameAction, IPlayerAction
 {
     public int Value { get; private set; }
     
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
 
-    public PlaceBetAction(int value, int playerIndex)
+    public PlaceBetAction(int value, PlayerModel player)
     {
         Value = value;
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

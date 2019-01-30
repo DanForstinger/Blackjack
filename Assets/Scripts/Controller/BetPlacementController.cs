@@ -42,12 +42,12 @@ public class BetPlacementController : MonoBehaviour
 
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AddBetValueAction>(OnAddBetValue);
+        ActionSystem.Instance.Listeners.AddListener<AddBetValueAction>(OnAddBetValue);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<AddBetValueAction>(OnAddBetValue);
+        ActionSystem.Instance.Listeners.RemoveListener<AddBetValueAction>(OnAddBetValue);
     }
 
     void OnAddBetValue(GameAction action)

@@ -9,19 +9,19 @@ public class PlayerScoreView : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<UpdateScoreAction>(OnUpdateScore); 
+        ActionSystem.Instance.Listeners.AddListener<UpdateScoreAction>(OnUpdateScore); 
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<UpdateScoreAction>(OnUpdateScore); 
+        ActionSystem.Instance.Listeners.RemoveListener<UpdateScoreAction>(OnUpdateScore); 
     }
 
     public void OnUpdateScore(GameAction action)
     {
         var updateScoreAction = (UpdateScoreAction) action;
 
-        if (updateScoreAction.OwningPlayer == playerController.Model.PlayerIndex)
+        if (updateScoreAction.Player.PlayerIndex == playerController.Model.PlayerIndex)
         {
             scoreText.text = "" + updateScoreAction.Score;
         }

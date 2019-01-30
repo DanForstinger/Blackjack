@@ -5,28 +5,30 @@ using UnityEngine;
 [RequireComponent(typeof(GameController))]
 public class GameSerializer : MonoBehaviour
 {
-     private GameController controller;
+    private GameController controller;
     
     private const string saveGameKey = "SaveGame";
 
     void Awake()
     {
         controller = GetComponent<GameController>();
-
-        var previousGameState = PlayerPrefs.GetString(saveGameKey);
-        
-        Debug.Log(string.Format("Previous Game End State:\n{0}", previousGameState));
     }
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<EndGameAction>(OnEndGame);
+        ActionSystem.Instance.Listeners.AddListener<EndGameAction>(OnEndGame);
     }
 
     void OnDisable()
     {
-        //todo: Rename to event system?
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<EndGameAction>(OnEndGame);
+        SaveGameState();
+       
+        ActionSystem.Instance.Listeners.RemoveListener<EndGameAction>(OnEndGame);
+    }
+
+    void Start()
+    {
+        LoadGameState();
     }
 
     void OnEndGame(GameAction action)
@@ -34,7 +36,6 @@ public class GameSerializer : MonoBehaviour
         SaveGameState();
     }
     
-    //todo: new class?
     void SaveGameState()
     {
         var gameStateJson = controller.Model.ToJson();
@@ -43,5 +44,17 @@ public class GameSerializer : MonoBehaviour
         PlayerPrefs.SetString(saveGameKey, gameStateJson);
         
         Debug.Log(string.Format("Game State at End of Game:\n{0}", gameStateJson));
+    }
+
+    void LoadGameState()
+    {
+        var previousGameState = PlayerPrefs.GetString(saveGameKey);
+        
+        Debug.Log(string.Format("Previous Game End State:\n{0}", previousGameState));
+
+        var model = JsonUtility.FromJson<GameModel>(previousGameState);
+        
+        //for now, just reload the players money.
+        controller.LocalPlayer.SetMoney(model.Players[0].Money);
     }
 }

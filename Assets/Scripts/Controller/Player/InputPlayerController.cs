@@ -6,7 +6,7 @@ public class InputPlayerController : PlayerController
     {
         if (Model.DidStay || Model.DidBust)
         {
-            var stayAction = new StayAction(Model.PlayerIndex);
+            var stayAction = new StayAction(Model);
             ActionSystem.Instance.PerformAction(stayAction);
         }
     }

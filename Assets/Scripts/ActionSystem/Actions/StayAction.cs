@@ -1,10 +1,10 @@
 ﻿[System.Serializable]
 public class StayAction : GameAction, IPlayerAction
 {
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
     
-    public StayAction(int playerIndex)
+    public StayAction(PlayerModel player)
     {
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

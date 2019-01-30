@@ -7,7 +7,7 @@ public class ActionListenerRegistry
     private Dictionary<Type, ActionEvent> listeners = new Dictionary<Type, ActionEvent>();
 
     
-    public void AddActionListener<T>(UnityAction<GameAction> listener) where T: GameAction
+    public void AddListener<T>(UnityAction<GameAction> listener) where T: GameAction
     {
         var typeName = ActionSystem.GetActionType<T>();
         
@@ -19,7 +19,7 @@ public class ActionListenerRegistry
         listeners[typeName].AddListener(listener);
     }
 
-    public void RemoveActionListener<T>(UnityAction<GameAction> listener) where T: GameAction
+    public void RemoveListener<T>(UnityAction<GameAction> listener) where T: GameAction
     {
         var typeName = ActionSystem.GetActionType<T>();
         

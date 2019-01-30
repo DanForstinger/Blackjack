@@ -16,34 +16,43 @@ public abstract class PlayerController : MonoBehaviour
         return Model;
     }
 
+    public void SetMoney(int amount)
+    {
+        Model.Money = amount;
+        
+        if (Model.Money <= 0) Model.Money = 0;
+        
+        var adjustAction = new AdjustPlayerMoneyAction(amount, Model.Money, Model);
+        ActionSystem.Instance.PerformAction(adjustAction);
+    }
+    
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DrawCardAction>(OnDrawCard);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<PlaceBetAction>(OnPlaceBet);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AddBetValueAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareWinner);
+        ActionSystem.Instance.Listeners.AddListener<DrawCardAction>(OnDrawCard);
+        ActionSystem.Instance.Listeners.AddListener<BeginTurnAction>(OnBeginTurn);
+        ActionSystem.Instance.Listeners.AddListener<PlaceBetAction>(OnPlaceBet);
+        ActionSystem.Instance.Listeners.AddListener<AddBetValueAction>(OnAddBet);
+        ActionSystem.Instance.Listeners.AddListener<DeclareGameResultAction>(OnDeclareWinner);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DrawCardAction>(OnDrawCard);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnPlaceBet);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<AddBetValueAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareWinner);
+        ActionSystem.Instance.Listeners.RemoveListener<DrawCardAction>(OnDrawCard);
+        ActionSystem.Instance.Listeners.RemoveListener<BeginTurnAction>(OnBeginTurn);
+        ActionSystem.Instance.Listeners.RemoveListener<PlaceBetAction>(OnPlaceBet);
+        ActionSystem.Instance.Listeners.RemoveListener<AddBetValueAction>(OnAddBet);
+        ActionSystem.Instance.Listeners.RemoveListener<DeclareGameResultAction>(OnDeclareWinner);
     }
 
     void OnDrawCard(GameAction action)
     {
         var drawCardAction = (DrawCardAction)action;
 
-        if (drawCardAction.OwningPlayer == Model.PlayerIndex)
+        if (drawCardAction.Player.PlayerIndex == Model.PlayerIndex)
         {
             Model.AddCard(drawCardAction.Card);
             
-            //todo: Maybe this shouldn't be an action...
-            var updateAction = new UpdateScoreAction(Model.Score, Model.PlayerIndex);
+            var updateAction = new UpdateScoreAction(Model.Score, Model);
             ActionSystem.Instance.PerformAction(updateAction);
         }
     }
@@ -52,7 +61,7 @@ public abstract class PlayerController : MonoBehaviour
     {
         var beginTurnAction = (BeginTurnAction) action;
 
-        if (beginTurnAction.OwningPlayer == Model.PlayerIndex)
+        if (beginTurnAction.Player.PlayerIndex == Model.PlayerIndex)
         {
             BeginTurn();
         }
@@ -62,9 +71,9 @@ public abstract class PlayerController : MonoBehaviour
     {
         var betAction = (AddBetValueAction) action;
 
-        if (betAction.OwningPlayer == Model.PlayerIndex)
+        if (betAction.Player.PlayerIndex == Model.PlayerIndex)
         {
-            AdjustMoney(-betAction.Value);
+            SetMoney(Model.Money - betAction.Value);
         }
     }
     
@@ -72,7 +81,7 @@ public abstract class PlayerController : MonoBehaviour
     {
         var betAction = (PlaceBetAction) action;
 
-        if (betAction.OwningPlayer == Model.PlayerIndex)
+        if (betAction.Player.PlayerIndex == Model.PlayerIndex)
         {
             Model.Bet = betAction.Value;
         }
@@ -86,23 +95,13 @@ public abstract class PlayerController : MonoBehaviour
         {
             if (resultAction.Result == GameResult.PlayerWins)
             {
-                AdjustMoney(Model.Bet * 2);
+                SetMoney(Model.Money + (Model.Bet * 2));
             }
             else if (resultAction.Result == GameResult.Tie)
             {
-                AdjustMoney(Model.Bet);
+                SetMoney(Model.Money + Model.Bet);
             }
         }
-    }
-
-    void AdjustMoney(int amount)
-    {
-        Model.Money += amount;
-        
-        if (Model.Money <= 0) Model.Money = 0;
-        
-        var adjustAction = new AdjustPlayerMoneyAction(amount, Model.Money, Model.PlayerIndex);
-        ActionSystem.Instance.PerformAction(adjustAction);
     }
     
     protected abstract void BeginTurn();

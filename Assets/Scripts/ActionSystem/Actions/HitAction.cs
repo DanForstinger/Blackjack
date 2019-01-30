@@ -1,10 +1,10 @@
 ﻿[System.Serializable]
 public class HitAction : GameAction, IPlayerAction
 {
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
     
-    public HitAction(int playerIndex)
+    public HitAction(PlayerModel player)
     {
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

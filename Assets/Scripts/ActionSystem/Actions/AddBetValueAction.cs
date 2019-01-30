@@ -5,11 +5,11 @@ public class AddBetValueAction : GameAction, IPlayerAction
 {
     public int Value { get; private set; }
     
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
 
-    public AddBetValueAction(int value, int playerIndex)
+    public AddBetValueAction(int value, PlayerModel player)
     {
         Value = value;
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

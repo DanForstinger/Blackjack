@@ -42,22 +42,23 @@ public class DealerDialogueController : MonoBehaviour
     {  
         container.SetActive(false);
         
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareGameResult);
+        ActionSystem.Instance.Listeners.AddListener<BeginTurnAction>(OnBeginTurn);
+        ActionSystem.Instance.Listeners.AddListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareGameResult);
+        ActionSystem.Instance.Listeners.RemoveListener<BeginTurnAction>(OnBeginTurn);
+        ActionSystem.Instance.Listeners.RemoveListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnBeginTurn(GameAction action)
     {
         var beginTurnAction = (BeginTurnAction) action;
 
-        //todo: Get a model here so that we can check if we have stayed
-        if (beginTurnAction.OwningPlayer == 0)
+        var player = beginTurnAction.Player;
+
+        if (player.IsLocalPlayer && !player.DidStay && !player.DidBust)
         {
             StartCoroutine(ShowDialogue(startTurnLines[Random.Range(0, startTurnLines.Length)]));
         }
@@ -67,7 +68,6 @@ public class DealerDialogueController : MonoBehaviour
     {
         var resultAction = (DeclareGameResultAction) action;
 
-        //todo: Get a model here?
         if (resultAction.Result == GameResult.PlayerWins)
         {
             StartCoroutine(ShowDialogue(victoryLines[Random.Range(0, victoryLines.Length)]));

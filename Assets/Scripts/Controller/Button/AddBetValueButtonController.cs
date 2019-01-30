@@ -33,14 +33,14 @@ public class AddBetValueButtonController : ButtonController
     {
         base.OnEnable();
         
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
+        ActionSystem.Instance.Listeners.AddListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
+        ActionSystem.Instance.Listeners.AddListener<AdjustPlayerMoneyAction>(OnAdjustMoney);
     }
 
     void Start()
@@ -62,7 +62,7 @@ public class AddBetValueButtonController : ButtonController
     {
         if (player.Money >= value)
         {
-            var action = new AddBetValueAction(value, player.PlayerIndex);
+            var action = new AddBetValueAction(value, player);
             ActionSystem.Instance.PerformAction(action);
         }
     }

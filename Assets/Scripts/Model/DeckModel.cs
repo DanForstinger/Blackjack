@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-//todo: Actually remove cards from the deck instead of using this int.
 [System.Serializable]
 public class DeckModel
 {

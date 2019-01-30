@@ -7,9 +7,8 @@ using System;
 public class ActionEvent : UnityEvent<GameAction> {}
 
 [CreateAssetMenu]
-public class ActionSystem : MonoBehaviour
+public class ActionSystem
 {
-    //todo: remove singelton
     private static ActionSystem instance;
 
     public static ActionSystem Instance
@@ -18,8 +17,7 @@ public class ActionSystem : MonoBehaviour
         {
             if (instance == null)
             {
-                var obj = new GameObject("ActionSystem");
-                instance = obj.AddComponent<ActionSystem>();
+                instance = new ActionSystem();
             }
             
             return instance; 
@@ -29,9 +27,9 @@ public class ActionSystem : MonoBehaviour
     public ActionEvent OnBeginPerform = new ActionEvent();
     public ActionEvent OnFinishPerform = new ActionEvent();
     
-    public ActionViewerRegistry ViewerRegistry = new ActionViewerRegistry();
+    public ActionViewerRegistry Viewers = new ActionViewerRegistry();
         
-    public ActionListenerRegistry ListenerRegistry = new ActionListenerRegistry();
+    public ActionListenerRegistry Listeners = new ActionListenerRegistry();
 
     private List<ActionViewer> currentlyExecutingViewers = new List<ActionViewer>();
 
@@ -68,7 +66,7 @@ public class ActionSystem : MonoBehaviour
             
             currentlyExecutingAction = action;
             
-            if (ViewerRegistry.HasViewers(action))
+            if (Viewers.HasViewers(action))
             {
                 StartActionViewers(action);
             }
@@ -81,7 +79,7 @@ public class ActionSystem : MonoBehaviour
 
     private void StartActionViewers<T>(T action) where T : GameAction
     {
-        var potentialViewers = ViewerRegistry.GetViewers(action);
+        var potentialViewers = Viewers.GetViewers(action);
         
         // filter viewers based on if they want to view this action.
         foreach (var viewer in potentialViewers)
@@ -111,7 +109,7 @@ public class ActionSystem : MonoBehaviour
 
     private void CompleteAction()
     {
-        ListenerRegistry.InvokePerformEvent(currentlyExecutingAction);
+        Listeners.InvokePerformEvent(currentlyExecutingAction);
 
         if (actionQueue.Count > 0)
         {

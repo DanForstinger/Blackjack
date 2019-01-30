@@ -7,12 +7,12 @@ public class AdjustPlayerMoneyAction : GameAction, IPlayerAction
     
     public int AdjustmentAmount { get; private set; }
     
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
 
-    public AdjustPlayerMoneyAction(int amount, int newValue, int playerIndex)
+    public AdjustPlayerMoneyAction(int amount, int newValue, PlayerModel player)
     {
         AdjustmentAmount = amount;
         NewValue = newValue;
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }

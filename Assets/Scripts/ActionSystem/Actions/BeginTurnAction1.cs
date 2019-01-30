@@ -1,10 +1,10 @@
 ﻿[System.Serializable]
 public class BeginTurnAction : GameAction, IPlayerAction
 {
-    public int OwningPlayer { get; set; }
+    public PlayerModel Player { get; set; }
     
-    public BeginTurnAction(int playerIndex)
+    public BeginTurnAction(PlayerModel player)
     {
-        OwningPlayer = playerIndex;
+        Player = player;
     }
 }
