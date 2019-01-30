@@ -47,4 +47,6 @@ No explanation neccessary.
 
 - Confetti for added fluorish.
 
+- Some fonts
+
 - Some stock images found online. I don't have my drawing tablet here :(
