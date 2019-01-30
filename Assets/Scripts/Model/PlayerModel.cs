@@ -15,13 +15,16 @@ public class PlayerModel
     {
         get { return IsBust(Score); }
     }
+
+    public bool IsLocalPlayer; 
     
     public int Score;
 
     public List<CardModel> Cards;
 
-    public PlayerModel(int index)
+    public PlayerModel(int index, bool isLocalPlayer)
     {
+        IsLocalPlayer = isLocalPlayer;
         Cards = new List<CardModel>();
         PlayerIndex = index;
         Score = 0;

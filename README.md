@@ -16,12 +16,17 @@ Data
 - Game state can be saved but is not restored, because of time restrictions
 - Action system could be pretty easily extended to support saving the history, undoing, etc.
 
+Settings
+- Not part of game serializer, use scriptable object values that can be passed around easily.
+
 Action System
 
 - Game Actions are managed by the Action System. They have phases.
 - RegisterViewers,  
 - In a normal card game like magic, you would allow other things to add a "Response" to any action, that would play out before the main one executed. That would be a neat way to extend this system.
 - Validation of actions, for instance, checking that it is the correct players turn. Right now we just hide the buttons
+
+
 # Would have liked to improve:
 
 - More moddability in the editor. 

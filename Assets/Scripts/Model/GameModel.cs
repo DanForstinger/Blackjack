@@ -8,6 +8,8 @@ public class GameModel
     public PlayerModel[] Players;
     public DeckModel Deck;
 
+    public int Winner;
+    
     public GameModel(PlayerModel[] players)
     {
         Players = players;

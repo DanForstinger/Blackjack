@@ -7,9 +7,9 @@ public abstract class PlayerController : MonoBehaviour
 {
     public PlayerModel Model { get; private set; }
 
-    public PlayerModel Initialize(int index)
+    public PlayerModel Initialize(int index, bool isLocal)
     {
-        Model = new PlayerModel(index);
+        Model = new PlayerModel(index, isLocal);
         
         Debug.Log(string.Format("Initialized a player controller at index {0}.", index));
 

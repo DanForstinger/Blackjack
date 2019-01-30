@@ -6,7 +6,10 @@ public class GameController : MonoBehaviour
 {
     public GameModel Model { get; private set; }
     
-    [SerializeField] private PlayerController[] players;
+    [SerializeField] private AIPlayerController dealer;
+
+    //To support multiple players, make this an array of players.
+    [SerializeField] private InputPlayerController player;
     
     //todo; Seperate class?
     [SerializeField] private GameObject BetPlacementUI;
@@ -15,15 +18,12 @@ public class GameController : MonoBehaviour
     private int currentPlayer = 0;
 
     void Awake()
-    {   
-        var playerModels = new PlayerModel[players.Length];
+    {
+        var playerModels = new PlayerModel[2];
         
-        for (int i = 0; i < players.Length; ++i)
-        {
-            var model = players[i].Initialize(i);
-            playerModels[i] = model;
-        }
-        
+        playerModels[0] = player.Initialize(0, true);
+        playerModels[1] = dealer.Initialize(1, false);
+
         Model = new GameModel(playerModels);
     }
 
@@ -94,7 +94,7 @@ public class GameController : MonoBehaviour
     {
         var stayAction = (StayAction) action;
 
-        players[stayAction.OwningPlayer].Model.DidStay = true;
+        Model.Players[stayAction.OwningPlayer].DidStay = true;
         
         if (currentPlayer == stayAction.OwningPlayer)
         {
@@ -112,6 +112,11 @@ public class GameController : MonoBehaviour
         {
             var gameOverAction = new EndGameAction();
             ActionSystem.Instance.PerformAction(gameOverAction);
+
+            var winner = CalculateWinner();
+            
+            var declareWinnerAction = new DeclareWinnerAction(Model.Players[winner], Model.Players[1-winner]);
+            ActionSystem.Instance.PerformAction(declareWinnerAction);
         }
         else
         {
@@ -120,8 +125,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+    int CalculateWinner()
+    {
+        if (!player.Model.DidBust && (player.Model.Score > dealer.Model.Score || dealer.Model.DidBust))
+        {
+            return player.Model.PlayerIndex;
+        }
+        else
+        {
+            return dealer.Model.PlayerIndex;
+        }
+    }
+    
     bool IsGameOver()
     {
-        return players.All(player => player.Model.DidStay || player.Model.DidBust);
+        return Model.Players.All(player => player.DidStay || player.DidBust);
     }
 }
