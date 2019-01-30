@@ -9,6 +9,7 @@ public class ResultsScreenController : MonoBehaviour
     [SerializeField] private Text title;
     [SerializeField] private Text localPlayerScore;
     [SerializeField] private Text dealerScore;
+    [SerializeField] private GameObject confettiPrefab;
     
     void OnEnable()
     {
@@ -29,6 +30,7 @@ public class ResultsScreenController : MonoBehaviour
         if (didLocalPlayerWin)
         {
             title.text = "You Win!";
+            Instantiate(confettiPrefab, Vector2.zero, Quaternion.identity);
         }
         else
         {
