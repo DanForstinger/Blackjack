@@ -41,9 +41,6 @@ The dealer will make sarcastic remarks and ruin your day.
 ## CONFETTI
 No explanation neccessary.
 
-## 'SNIKT' SOUNDS FOR CARDS
-Because it wouldn't be a card game without them.
-
 # Assets Used
 
 - LeanTween for simple and easy animations.
