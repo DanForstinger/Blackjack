@@ -93,6 +93,9 @@ public class GameController : MonoBehaviour
     void OnStayAction(GameAction action)
     {
         var stayAction = (StayAction) action;
+
+        players[stayAction.OwningPlayer].Model.DidStay = true;
+        
         if (currentPlayer == stayAction.OwningPlayer)
         {
             ChangeTurn(stayAction.OwningPlayer);

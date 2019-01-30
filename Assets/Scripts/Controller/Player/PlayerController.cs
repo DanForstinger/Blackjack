@@ -21,7 +21,6 @@ public abstract class PlayerController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.AddActionListener<DrawCardAction>(OnDrawCard);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<StayAction>(OnStay);
     }
 
     void OnDisable()
@@ -29,7 +28,6 @@ public abstract class PlayerController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DrawCardAction>(OnDrawCard);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<StayAction>(OnStay);
     }
 
     void OnDrawCard(GameAction action)
@@ -43,16 +41,6 @@ public abstract class PlayerController : MonoBehaviour
             //todo: Maybe this shouldn't be an action...
             var updateAction = new UpdateScoreAction(Model.Score, Model.PlayerIndex);
             ActionSystem.Instance.PerformAction(updateAction);
-        }
-    }
-
-    void OnStay(GameAction action)
-    {
-        var stayAction = (StayAction)action;
-
-        if (stayAction.OwningPlayer == Model.PlayerIndex)
-        {
-            Model.DidStay = true;
         }
     }
 
