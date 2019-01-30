@@ -30,7 +30,7 @@ Although the game doesn't fully restore state, you can see that it is easily sav
 
 Of note is that the games settings are ScriptableObjects and not part of the serializer. This was done to make it easier to pass these values around without creating too many central dependencies, but it could be modified with a little work to get that data in the same place.
 
-# Known Shortcomings / Areas of Improvement
+## Known Shortcomings / Areas of Improvement
 
 - The ActionSystem is a singleton (the only one in the game). I would have liked to avoid this, but since it is a small project I thought it acceptable and it didn't present any issues.
 
