@@ -6,8 +6,9 @@ public class GameController : MonoBehaviour
 {
     public GameModel Model { get; private set; }
 
-    public IntRangeValue StartingMoney;
-  
+    [SerializeField] private IntRangeValue startingMoney;
+    [SerializeField] private IntRangeValue minimumBet;
+    
     [SerializeField] private AIPlayerController dealer;
 
     //To support multiple players, make this an array of players.
@@ -23,8 +24,8 @@ public class GameController : MonoBehaviour
     {
         var playerModels = new PlayerModel[2];
         
-        playerModels[0] = player.Initialize(0, true, StartingMoney.Value);
-        playerModels[1] = dealer.Initialize(1, false, StartingMoney.Value);
+        playerModels[0] = player.Initialize(0, true, startingMoney.Value);
+        playerModels[1] = dealer.Initialize(1, false, startingMoney.Value);
 
         Model = new GameModel(playerModels);
     }
@@ -52,6 +53,9 @@ public class GameController : MonoBehaviour
         
         BetPlacementUI.SetActive(true);
         GameplayControlsUI.SetActive(false);
+        
+        var betAction = new AddBetValueAction(minimumBet.Value, player.Model.PlayerIndex);
+        ActionSystem.Instance.PerformAction(betAction);
     }
     
     void OnPlaceBet(GameAction action)

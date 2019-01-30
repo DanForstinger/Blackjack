@@ -62,7 +62,7 @@ public class AddBetValueButtonController : ButtonController
     {
         if (player.Money >= value)
         {
-            var action = new AddBetValueAction(value, image.sprite, player.PlayerIndex);
+            var action = new AddBetValueAction(value, player.PlayerIndex);
             ActionSystem.Instance.PerformAction(action);
         }
     }

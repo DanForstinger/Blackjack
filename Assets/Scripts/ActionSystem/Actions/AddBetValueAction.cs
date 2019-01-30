@@ -3,15 +3,13 @@
 [System.Serializable]
 public class AddBetValueAction : GameAction, IPlayerAction
 {
-    public Sprite Chip { get; private set; }
     public int Value { get; private set; }
     
     public int OwningPlayer { get; set; }
 
-    public AddBetValueAction(int value, Sprite chip, int playerIndex)
+    public AddBetValueAction(int value, int playerIndex)
     {
         Value = value;
-        Chip = chip;
         OwningPlayer = playerIndex;
     }
 }
