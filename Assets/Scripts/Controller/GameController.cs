@@ -9,7 +9,6 @@ public enum GameResult
     Tie
 }
 
-//todo: split into smaller components?
 public class GameController : MonoBehaviour
 {
     public AIPlayerController Dealer;
@@ -21,10 +20,6 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private IntRangeValue startingMoney;
     [SerializeField] private IntRangeValue minimumBet;
-    
-    //todo; Seperate class?
-    [SerializeField] private GameObject BetPlacementUI;
-    [SerializeField] private GameObject GameplayControlsUI;
     
     private int currentPlayer = 0;
 
@@ -58,18 +53,12 @@ public class GameController : MonoBehaviour
     {
         Model.Deck.ShuffleDeck();
         
-        BetPlacementUI.SetActive(true);
-        GameplayControlsUI.SetActive(false);
-        
         var betAction = new AddBetValueAction(minimumBet.Value, LocalPlayer.Model);
         ActionSystem.Instance.PerformAction(betAction);
     }
     
     void OnPlaceBet(GameAction action)
     {
-        BetPlacementUI.SetActive(false);
-        GameplayControlsUI.SetActive(true);
-        
         DealCards();
 
         ChangeTurn(1);

@@ -10,6 +10,10 @@ public class ResultsScreenController : MonoBehaviour
     [SerializeField] private Text localPlayerScore;
     [SerializeField] private Text dealerScore;
     [SerializeField] private GameObject confettiPrefab;
+
+    private const string winText = "You Win!";
+    private const string loseText = "You Lost...";
+    private const string tieText = "It's a Tie!";
     
     void OnEnable()
     {
@@ -27,16 +31,16 @@ public class ResultsScreenController : MonoBehaviour
 
         if (resultAction.Result == GameResult.PlayerWins)
         {
-            title.text = "You Win!";
+            title.text = winText;
             Instantiate(confettiPrefab, Vector2.zero, Quaternion.identity);
         }
         else if (resultAction.Result == GameResult.Tie)
         {
-            title.text = "Tie!";
+            title.text = tieText;
         }
         else
         {
-            title.text = "You Lost...";
+            title.text =  loseText;
         }
 
         localPlayerScore.text = "" + resultAction.LocalPlayer.Score;

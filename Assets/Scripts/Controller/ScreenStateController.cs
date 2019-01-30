@@ -6,9 +6,8 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(StackNavigator))]
 public class ScreenStateController : MonoBehaviour
 {
-    //todo: should this dependency be shared with StackNavigator
     [SerializeField] GameObject gameplayScreen;
-    [FormerlySerializedAs("gameOver")] [SerializeField] GameObject gameOverScreen;
+    [SerializeField] GameObject gameOverScreen;
 
     private StackNavigator navigator;
 

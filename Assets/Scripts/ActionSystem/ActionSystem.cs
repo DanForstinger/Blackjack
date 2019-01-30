@@ -6,7 +6,6 @@ using System;
 [Serializable]
 public class ActionEvent : UnityEvent<GameAction> {}
 
-[CreateAssetMenu]
 public class ActionSystem
 {
     private static ActionSystem instance;
