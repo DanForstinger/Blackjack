@@ -43,13 +43,13 @@ public class DealerDialogueController : MonoBehaviour
         container.SetActive(false);
         
         ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareWinnerAction>(OnDeclareWinner);
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnDisable()
     {
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareWinnerAction>(OnDeclareWinner);
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnBeginTurn(GameAction action)
@@ -63,12 +63,12 @@ public class DealerDialogueController : MonoBehaviour
         }
     }
     
-    void OnDeclareWinner(GameAction action)
+    void OnDeclareGameResult(GameAction action)
     {
-        var winnerAction = (DeclareWinnerAction) action;
+        var resultAction = (DeclareGameResultAction) action;
 
         //todo: Get a model here?
-        if (winnerAction.Winner.IsLocalPlayer)
+        if (resultAction.Result == GameResult.PlayerWins)
         {
             StartCoroutine(ShowDialogue(victoryLines[Random.Range(0, victoryLines.Length)]));
         }

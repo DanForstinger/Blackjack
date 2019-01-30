@@ -13,34 +13,33 @@ public class ResultsScreenController : MonoBehaviour
     
     void OnEnable()
     {
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareWinnerAction>(OnWinnerDeclared);
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
     void OnDisable()
     {
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareWinnerAction>(OnWinnerDeclared);
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareGameResult);
     }
 
-    void OnWinnerDeclared(GameAction action)
+    void OnDeclareGameResult(GameAction action)
     {
-        var winnerAction = (DeclareWinnerAction) action;
+        var resultAction = (DeclareGameResultAction) action;
 
-        bool didLocalPlayerWin = winnerAction.Winner.IsLocalPlayer;
-
-        if (didLocalPlayerWin)
+        if (resultAction.Result == GameResult.PlayerWins)
         {
             title.text = "You Win!";
             Instantiate(confettiPrefab, Vector2.zero, Quaternion.identity);
+        }
+        else if (resultAction.Result == GameResult.Tie)
+        {
+            title.text = "Tie!";
         }
         else
         {
             title.text = "You Lost...";
         }
 
-        var localPlayer = winnerAction.Winner.IsLocalPlayer ? winnerAction.Winner : winnerAction.Loser;
-        var dealerPlayer = winnerAction.Winner.IsLocalPlayer ? winnerAction.Loser : winnerAction.Winner;
-
-        localPlayerScore.text = "" + localPlayer.Score;
-        dealerScore.text = "" + dealerPlayer.Score;
+        localPlayerScore.text = "" + resultAction.LocalPlayer.Score;
+        dealerScore.text = "" + resultAction.Dealer.Score;
     }
 }

@@ -22,7 +22,7 @@ public abstract class PlayerController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.AddActionListener<BeginTurnAction>(OnBeginTurn);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<PlaceBetAction>(OnPlaceBet);
         ActionSystem.Instance.ListenerRegistry.AddActionListener<AddBetValueAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareWinnerAction>(OnDeclareWinner);
+        ActionSystem.Instance.ListenerRegistry.AddActionListener<DeclareGameResultAction>(OnDeclareWinner);
     }
 
     void OnDisable()
@@ -31,7 +31,7 @@ public abstract class PlayerController : MonoBehaviour
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<BeginTurnAction>(OnBeginTurn);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<PlaceBetAction>(OnPlaceBet);
         ActionSystem.Instance.ListenerRegistry.RemoveActionListener<AddBetValueAction>(OnAddBet);
-        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareWinnerAction>(OnDeclareWinner);
+        ActionSystem.Instance.ListenerRegistry.RemoveActionListener<DeclareGameResultAction>(OnDeclareWinner);
     }
 
     void OnDrawCard(GameAction action)
@@ -80,11 +80,18 @@ public abstract class PlayerController : MonoBehaviour
     
     void OnDeclareWinner(GameAction action)
     {
-        var winnerAction = (DeclareWinnerAction) action;
+        var resultAction = (DeclareGameResultAction) action;
 
-        if (winnerAction.Winner == Model)
+        if (Model.IsLocalPlayer)
         {
-            AdjustMoney(Model.Bet * 2);
+            if (resultAction.Result == GameResult.PlayerWins)
+            {
+                AdjustMoney(Model.Bet * 2);
+            }
+            else if (resultAction.Result == GameResult.Tie)
+            {
+                AdjustMoney(Model.Bet);
+            }
         }
     }
 

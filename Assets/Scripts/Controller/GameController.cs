@@ -1,6 +1,14 @@
 ﻿using System.Linq;
 using UnityEngine;
 
+public enum GameResult
+{
+    Undeclared,
+    PlayerWins,
+    DealerWins,
+    Tie
+}
+
 //todo: split into smaller components?
 public class GameController : MonoBehaviour
 {
@@ -116,13 +124,7 @@ public class GameController : MonoBehaviour
 
         if (IsGameOver())
         {
-            var gameOverAction = new EndGameAction();
-            ActionSystem.Instance.PerformAction(gameOverAction);
-
-            var winner = CalculateWinner();
-
-            var declareWinnerAction = new DeclareWinnerAction(Model.Players[winner], Model.Players[1-winner]);
-            ActionSystem.Instance.PerformAction(declareWinnerAction);
+            EndGame();
         }
         else
         {
@@ -131,15 +133,30 @@ public class GameController : MonoBehaviour
         }
     }
 
-    int CalculateWinner()
+    private void EndGame()
+    {
+        var gameOverAction = new EndGameAction();
+        ActionSystem.Instance.PerformAction(gameOverAction);
+
+        var result = CalculateResult();
+
+        var declareResultAction = new DeclareGameResultAction(player.Model, dealer.Model, result);
+        ActionSystem.Instance.PerformAction(declareResultAction);
+    }
+
+    GameResult CalculateResult()
     {
         if (!player.Model.DidBust && (player.Model.Score > dealer.Model.Score || dealer.Model.DidBust))
         {
-            return player.Model.PlayerIndex;
+            return GameResult.PlayerWins;
+        }
+        else if ((player.Model.DidBust && dealer.Model.DidBust) || player.Model.Score == dealer.Model.Score)
+        {
+            return GameResult.Tie;
         }
         else
         {
-            return dealer.Model.PlayerIndex;
+            return GameResult.DealerWins;
         }
     }
     
