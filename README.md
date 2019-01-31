@@ -4,6 +4,8 @@ A simple game of blackjack, built as part of a coding challenge.
 
 # Running the Game
 
+The game was made using Unity 2018.3.2.
+
 To run the game, open the Main scene in the Scenes folder. The game is meant to be run in portrait orientation (like on a phone). Although it works in any aspect fairly well, please resize your scene window for best results.
 
 Once loaded, press play to run the game.
