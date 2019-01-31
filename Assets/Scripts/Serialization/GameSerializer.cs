@@ -48,13 +48,16 @@ public class GameSerializer : MonoBehaviour
 
     void LoadGameState()
     {
-        var previousGameState = PlayerPrefs.GetString(saveGameKey);
-        
-        Debug.Log(string.Format("Previous Game End State:\n{0}", previousGameState));
+        if (PlayerPrefs.HasKey(saveGameKey))
+        {
+            var previousGameState = PlayerPrefs.GetString(saveGameKey);
 
-        var model = JsonUtility.FromJson<GameModel>(previousGameState);
-        
-        //for now, just reload the players money.
-        controller.LocalPlayer.SetMoney(model.Players[0].Money);
+            Debug.Log(string.Format("Previous Game End State:\n{0}", previousGameState));
+
+            var model = JsonUtility.FromJson<GameModel>(previousGameState);
+
+            //for now, just reload the players money.
+            controller.LocalPlayer.SetMoney(model.Players[0].Money);
+        }
     }
 }
