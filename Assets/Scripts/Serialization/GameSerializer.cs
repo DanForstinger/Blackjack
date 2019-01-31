@@ -56,8 +56,14 @@ public class GameSerializer : MonoBehaviour
 
             var model = JsonUtility.FromJson<GameModel>(previousGameState);
 
+            var money = model.Players[0].Money;
+
+            //hack to ensure you have some starting cash.
+            if (money < 200) money = 200;
+            
             //for now, just reload the players money.
-            controller.LocalPlayer.SetMoney(model.Players[0].Money);
+            controller.LocalPlayer.SetMoney(money);
+            
         }
     }
 }
